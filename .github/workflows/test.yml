@@ -1,0 +1,37 @@
+name: Build Environment Images
+on: [push]
+
+jobs:
+  build_images:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install Dependencies
+      run: pip install ruamel.yaml azureml.assets
+
+    - name: Build Docker Images
+      run: python build_images.py
+      with:
+        input-dirs: 'path/to/environments'
+        asset-config-filename: 'assets.yml'
+        output-directory: 'output_images'
+        build-logs-dir: 'build_logs'
+        max-parallel: 25
+        changed-files: 'changed_files.csv'
+        os-to-build: 'LINUX'
+        registry: 'my-container-registry'
+        resource-group: 'my-resource-group'
+        pin-versions: true
+        tag-with-version: true
+        test-command: 'test_command'
+        push: true
+        use-version-dirs: true
+        trivy-url: 'https://trivy.example.com'
