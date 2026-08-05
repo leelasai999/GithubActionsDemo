@@ -2,9 +2,9 @@ name: Hello World
 on: 
  push:
    branches:
-      -main
-      -develop
-      -'release/**'   
+    -main
+    -develop
+    -'release/**'   
 jobs:
   build:
     runs-on: ubuntu-latest
